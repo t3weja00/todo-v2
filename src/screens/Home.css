@@ -9,3 +9,54 @@ li{
 .delete-button{
   margin-left: 16px;
 }
+
+.main-cont{
+  width: 40%;
+  margin: auto;
+  margin-top: 30px;
+  
+}
+
+.main-login{
+  width: 30%;
+  margin: auto;
+  margin-top: 30px;
+  
+}
+
+.todo-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-left: 5px;
+  justify-content: center;
+}
+
+.todo-body {
+  align-items: center;
+  justify-content: space-between;
+  background: #edeef0;
+  border-radius: 30px;
+  padding: 20px;
+  margin: 25px;
+}
+
+.todo-body input {
+  flex: 1;
+  border: thin solid black;
+  outline: none;
+  background: transparent;
+  padding: 15px;
+  font-size: 20px;
+  margin: 20px 0px;
+  width: 100%;
+}
+
+.todo-body img {
+  cursor: pointer;
+  border-radius: 40px;
+  height: 55px;
+  width: 55px;
+  padding: 15px;
+  background: limegreen;
+}

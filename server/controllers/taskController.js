@@ -12,9 +12,9 @@ const getTasks = async (req, res, next) => {
 
 const postTask = async (req, res, next) => {
   const description = req.body.description;
-    if (!description || description.length === 0)
-      //return next(new ApiError("Invalid description for task", 400));
-    return res.status(400).json({ error: 'Invalid description for task'});
+  if (!description || description.length === 0)
+    //return next(new ApiError("Invalid description for task", 400));
+    return res.status(400).json({ error: 'Invalid description for task' });
 
   try {
     const result = await insertTask(description);
@@ -26,8 +26,8 @@ const postTask = async (req, res, next) => {
 
 const deleteTaskById = async (req, res, next) => {
   const id = parseInt(req.params.id);
-   // if (isNaN(id)) return next(new ApiError("Invalid id", 400));
-   if (isNaN(id)) return res.status(400).json({ error: 'Invalid description for task'});
+  // if (isNaN(id)) return next(new ApiError("Invalid id", 400));
+  if (isNaN(id)) return res.status(400).json({ error: 'Invalid description for task' });
 
   try {
     const result = await deleteTask(id);

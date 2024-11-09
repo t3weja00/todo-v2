@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Authentication.css";
 import { useUser } from "../context/useUser.ts";
 import { AxiosError, AuthenticationProps } from "../PropInterface.ts";
+import logo from '../images/book-icon.png'
 
 export const AuthenticationMode = Object.freeze({
   Login: "Login",
@@ -24,18 +25,24 @@ export default function Authentication({ mode }: AuthenticationProps) {
         navigate("/");
       }
     } catch (error) {
-      const message = (error as AxiosError)?.response?.data?.error ||"An unexpected error occurred.";
+      const message = (error as AxiosError)?.response?.data?.error || "An unexpected error occurred.";
       alert(message);
     }
   };
 
   return (
-    <div>
+    <div className='center main-login'>
+      <div className="todo-header">
+        <h2>ToDo List</h2>
+        <img src={logo} alt='icon' height="50px" />
+      </div>
       <h3>{mode === AuthenticationMode.Login ? "Sign in" : "Sign up"}</h3>
-      <form action="" onSubmit={handleSubmit}>
+      <form action="" onSubmit={handleSubmit} className="form-signin">
+
         <div>
-          <label htmlFor="email">Email </label>
+          <label htmlFor="email" >Email </label>
           <input
+          className="form-control"
             id="email"
             type="email"
             value={user.email}
@@ -45,6 +52,7 @@ export default function Authentication({ mode }: AuthenticationProps) {
         <div>
           <label htmlFor="password">Password </label>
           <input
+          className="form-control"
             id="password"
             type="password"
             value={user.password}
@@ -52,6 +60,7 @@ export default function Authentication({ mode }: AuthenticationProps) {
           />
         </div>
         <div>
+          <br/>
           <button>
             {mode === AuthenticationMode.Login ? "Sign in" : "Sign up"}
           </button>

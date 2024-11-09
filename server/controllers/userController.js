@@ -7,10 +7,15 @@ const { sign } = jwt;
 const registration = async (req, res, next) => {
 
   const { email, password } = req.body;
-    if (!email || email.length === 0)
-      return next(new ApiError("Invalid email", 400));
-    if (!password || password.length < 8)
-      return next(new ApiError("Invalid password", 400));
+  if (!email || email.length === 0)
+    return next(new ApiError("Invalid email", 400));
+  if (!password || password.length < 8)
+    return res.status(400).json({ error: 'Do not use less than 8 character password' });
+    
+  const checkEmail = await searchUserByEmail(email);
+
+  if (checkEmail.rowCount > 0)
+    return res.status(400).json({ error: 'User Already existing.' });
 
   try {
     const hashedPassword = await hash(password, 10);

@@ -3,7 +3,6 @@ import cors from 'cors'
 import todoRouter from './routers/todoRouter.js'
 import userRouter from './routers/userRouter.js'
 
-
 const port = process.env.PORT
 
 const app = express()

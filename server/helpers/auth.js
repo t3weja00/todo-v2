@@ -13,7 +13,7 @@ const auth = (req, res, next) => {
       next();
     } catch (error) {
       const token = authHeader.split(" ")[1];
-      
+
       console.log(token)
       console.log(verify(token, process.env.JWT_SECRET))
       console.error("Authorization error:", error);

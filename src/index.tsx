@@ -7,6 +7,7 @@ import ErrorPage from "./screens/ErrorPage.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import UserProvider from "./context/UserProvider.tsx";
+import 'bootstrap/dist/css/bootstrap.css';
 
 const router = createBrowserRouter([
   { errorElement: <ErrorPage /> },

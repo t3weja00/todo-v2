@@ -4,50 +4,50 @@ import { getToken, initializeTestDb, insertTestUser } from "./helpers/test.js";
 const base_url = 'http://localhost:3002/'
 import { expect } from "chai";
 
-describe('GET Tasks',() => {
-    before(()=> {
+describe('GET Tasks', () => {
+    before(() => {
         initializeTestDb();
     })
 
-    it('should get all tasks', async() => {
+    it('should get all tasks', async () => {
         const response = await fetch(base_url)
         const data = await response.json();
 
         expect(response.status).to.equal(200);
         expect(data).to.be.an('array').that.is.not.empty;
-        expect(data[0]).to.include.all.keys('id','description');
+        expect(data[0]).to.include.all.keys('id', 'description');
     })
 })
 
 
-describe('POST Task',() => {
+describe('POST Task', () => {
 
- /*    const email = 'amadna@madus.com'
-    const password = 'register123'
-    insertTestUser(email, password); */ 
+    /*    const email = 'amadna@madus.com'
+       const password = 'register123'
+       insertTestUser(email, password); */
 
-  
-    it('should be post a task', async() => {
+
+    it('should be post a task', async () => {
         const response = await fetch(base_url + 'create', {
             method: 'post',
             headers: {
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({'description' : 'Task from unit test'})
+            body: JSON.stringify({ 'description': 'Task from unit test' })
         })
         const data = await response.json();
         expect(response.status).to.equal(200);
         expect(data).to.be.an('object');
         expect(data).to.include.all.keys('id')
     })
- 
-    it('should not post a task without description', async() => {
-        const response = await fetch(base_url+'create', {
+
+    it('should not post a task without description', async () => {
+        const response = await fetch(base_url + 'create', {
             method: 'post',
-            headers:{
-                'Content-Type':'application/json'
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({'description': null})
+            body: JSON.stringify({ 'description': null })
         })
         const data = await response.json();
         expect(response.status).to.equal(400);
@@ -58,8 +58,8 @@ describe('POST Task',() => {
 
 
 describe('Delete task', () => {
-    it('should delete a task', async() => {
-        const response = await fetch(base_url + 'delete/158', {
+    it('should delete a task', async () => {
+        const response = await fetch(base_url + 'delete/163', {
             method: 'delete'
         })
         const data = await response.json();
@@ -68,56 +68,74 @@ describe('Delete task', () => {
         expect(data).to.include.all.keys('deletedTaskId')
     })
 
-     it('should not delete a task with SQL injection', async() => {
-        const response = await fetch (base_url + 'delete/id=0 or id > 0', {
+    it('should not delete a task with SQL injection', async () => {
+        const response = await fetch(base_url + 'delete/id=0 or id > 0', {
             method: 'delete'
         })
         const data = await response.json()
         expect(response.status).to.equal(400);
         expect(data).to.be.an('object');
         expect(data).to.include.all.keys('error')
-    }) 
+    })
 })
 
-describe ('POST register', () => {
+describe('POST register', () => {
     const email = `test${Date.now()}_${Math.random()
         .toString(36)
         .substring(2, 15)}@gmail.com`;
     const password = 'register123';
 
-    it('should register with valid email and password', async() => {
+    it('should register with valid email and password', async () => {
         const response = await fetch(base_url + 'user/register', {
             method: 'post',
-            headers:{
-                'Content-Type':'application/json'
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({'email': email, 'password' : password})
+            body: JSON.stringify({ 'email': email, 'password': password })
         })
         const data = await response.json();
-        expect(response.status).to.equal(201,data.error)
+        expect(response.status).to.equal(201, data.error)
         /* expect (data).to.be.an('object')
         expect(data).to.include.all.keys('id', 'email') */
-        
+
     })
-}) 
+
+    it("should NOT register with the password less than 8 characters", async () => {
+        const email = `test${Date.now()}_${Math.random()
+            .toString(36)
+            .substring(2, 15)}@gmail.com`;
+        const password = `short`;
+        const res = await fetch(base_url + 'user/register', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 'email': email, 'password': password })
+        })
+        const data = await res.json();
+        expect(res.status).to.equal(400, data.error);
+        expect(data).to.be.an("object");
+        expect(data).to.include.all.keys("error");
+    });
+})
 
 describe('POST login', () => {
     const email = 'amadna@madus.com'
     const password = 'register123'
     insertTestUser(email, password);
 
-    it('should login with valid credentials', async() => {
+    it('should login with valid credentials', async () => {
         const response = await fetch(base_url + 'user/login', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({'email' : email, 'password': password})
+            body: JSON.stringify({ 'email': email, 'password': password })
         })
 
         const data = await response.json();
-        expect (response.status).to.equal(200, data.error);
-        expect (data).to.be.an('object')
+        expect(response.status).to.equal(200, data.error);
+        expect(data).to.be.an('object')
         expect(data).to.include.all.keys('id', 'email', 'token')
     })
 })
